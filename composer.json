@@ -1,0 +1,29 @@
+{
+    "name": "cbaconnier/laravel-http-pool-callback",
+    "description": "A Laravel package that enhances the HTTP pool functionality by allowing users to apply callbacks to the results.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Clément Baconnier",
+            "email": "clement@baconnier.ch"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/http": "^10.0",
+        "illuminate/support": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cbaconnier\\HttpPool\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Cbaconnier\\HttpPool\\HttpPoolServiceProvider"
+            ]
+        }
+    }
+}
