@@ -32,6 +32,7 @@ class InvoiceRepository implements HttpPoolAware
     {
         $promise = $this->http()->get("https://example.com/invoices/{$id}");
 
+        // Register the callback that will be executed on the response
         $this->onPromiseResolved(function (Response $response) {
             return new InvoiceDto($response->getBody()->getContents());
         });
@@ -65,11 +66,11 @@ class InvoiceRepository implements HttpPoolAware
 ```
 
 ### Pool the requests and apply the callbacks
-`runAsync` will clone the repositories instances to no infer with other requests and delegate the requests to the native Http::pool() method.
+`runAsync` will clone the repositories instances to no infer with other requests and delegate the requests to the native Http::pool() method.  
 By doing so, you can still benefit from the `Http` methods and testing helpers.
 
-When you call `getResponses`, it will returns the default Guzzle Responses objects.
-When you call `getResolved`, it will apply the callbacks to the responses and returns the results.
+When you call `getResponses`, it will returns the default Guzzle `Response` objects.  
+When you call `getResolved`, it will apply the `callback` to the responses and returns the results.
 
 ```php
 use Cbaconnier\HttpPool\Facades\HttpPool;
