@@ -1,6 +1,6 @@
-# Laravel Pool Callback - wip
+# Laravel Http Pool - Callback - wip
 
-Laravel Pool Callback is a package that enhances the HTTP pool functionality in Laravel. It allows users to apply callbacks to the results of HTTP requests made using Laravel's HTTP pool. This makes it easier to process and manipulate the responses as needed.
+Laravel Http Pool - Callback is a package that enhances the HTTP pool functionality in Laravel. It allows users to apply callbacks to the results of HTTP requests made using Laravel's HTTP pool. This makes it easier to process and manipulate the responses as needed.
 
 ## Installation
 
@@ -14,7 +14,7 @@ composer require cbaconnier/laravel-http-pool-callback
 
 ### Prepare the requests
 
-You must implement the `Cbaconnier\HttpPool\HttpPoolAware` interface and use the `Cbaconnier\HttpPool\HttpPoolAwareTrait` trait in your repository classes.
+You must implement the `Cbaconnier\HttpPool\HttpPoolAware` interface and use the `Cbaconnier\HttpPool\HttpPoolAwareTrait` trait in your repository classes.  
 This will allow you to register callbacks to be applied to the responses of the requests.
 
 ```php
