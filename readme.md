@@ -21,12 +21,12 @@ This will allow you to register callbacks to be applied to the responses of the 
 
 use GuzzleHttp\Promise\Promise;
 use Cbaconnier\HttpPool\HttpPoolAware;
-use Cbaconnier\HttpPool\HttpPoolAwareTrait;
+use Cbaconnier\HttpPool\HttpPoolAware;
 
 class InvoiceRepository implements HttpPoolAware
 {
 
-    use HttpPoolAwareTrait;
+    use HttpPoolAware;
 
     public function findAsync(int $id): Promise
     {
