@@ -7,7 +7,7 @@ use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 
-trait UseHttpPoolAware
+trait HasHttpPool
 {
     protected Closure|null $onPromiseResolvedCallback = null;
 

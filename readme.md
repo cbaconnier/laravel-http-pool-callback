@@ -14,19 +14,19 @@ composer require cbaconnier/laravel-http-pool-callback
 
 ### Prepare the requests
 
-You must implement the `Cbaconnier\HttpPool\HttpPoolAware` interface and use the `Cbaconnier\HttpPool\HttpPoolAwareTrait` trait in your repository classes.  
+You must implement the `Cbaconnier\HttpPool\HttpPoolAware` interface and use the `Cbaconnier\HttpPool\HasHttpPool` trait in your repository classes.
 This will allow you to register callbacks to be applied to the responses of the requests.
 
 ```php
 
 use GuzzleHttp\Promise\Promise;
 use Cbaconnier\HttpPool\HttpPoolAware;
-use Cbaconnier\HttpPool\HttpPoolAware;
+use Cbaconnier\HttpPool\HasHttpPool;
 
 class InvoiceRepository implements HttpPoolAware
 {
 
-    use HttpPoolAware;
+    use HasHttpPool;
 
     public function findAsync(int $id): Promise
     {
@@ -66,10 +66,10 @@ class InvoiceRepository implements HttpPoolAware
 ```
 
 ### Pool the requests and apply the callbacks
-`runAsync` will clone the repositories instances to no infer with other requests and delegate the requests to the native Http::pool() method.  
+`runAsync` will clone the repositories instances to no infer with other requests and delegate the requests to the native Http::pool() method.
 By doing so, you can still benefit from the `Http` methods and testing helpers.
 
-When you call `getResponses`, it will returns the default Guzzle `Response` objects.  
+When you call `getResponses`, it will returns the default Guzzle `Response` objects.
 When you call `getResolved`, it will apply the `callbacks` to the responses and returns the results.
 
 ```php
