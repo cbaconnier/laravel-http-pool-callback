@@ -70,7 +70,7 @@ class InvoiceRepository implements HttpPoolAware
 By doing so, you can still benefit from the `Http` methods and testing helpers.
 
 When you call `getResponses`, it will returns the default Guzzle `Response` objects.  
-When you call `getResolved`, it will apply the `callback` to the responses and returns the results.
+When you call `getResolved`, it will apply the `callbacks` to the responses and returns the results.
 
 ```php
 use Cbaconnier\HttpPool\Facades\HttpPool;
