@@ -19,11 +19,24 @@
             "Cbaconnier\\HttpPool\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Cbaconnier\\HttpPool\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "Cbaconnier\\HttpPool\\HttpPoolServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.12",
+        "phpunit/phpunit": "^10.3",
+        "guzzlehttp/guzzle": "^7.8"
     }
 }
