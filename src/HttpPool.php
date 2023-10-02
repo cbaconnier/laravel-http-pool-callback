@@ -46,6 +46,7 @@ class HttpPool
         return $this->run();
     }
 
+    /** @return array<array-key, mixed> */
     public function getResolved(): array
     {
         return collect($this->getResponses())
@@ -53,6 +54,7 @@ class HttpPool
             ->toArray();
     }
 
+    /** @return array<array-key, Response> */
     public function getResponses(): array
     {
         return $this->responses;
