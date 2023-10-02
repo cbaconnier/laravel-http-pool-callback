@@ -7,7 +7,6 @@ use Illuminate\Support\ServiceProvider;
 
 class HttpPoolServiceProvider extends ServiceProvider
 {
-
     public function register()
     {
         Http::macro('runAsync', function (array $requests) {

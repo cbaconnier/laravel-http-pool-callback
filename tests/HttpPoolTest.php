@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Http;
 
 class HttpPoolTest extends TestCase
 {
-
     protected HttpPool $httpPool;
     protected CustomTestRepository $customTestRepository;
 
@@ -28,20 +27,21 @@ class HttpPoolTest extends TestCase
         Http::fake();
 
         $results = $this->httpPool->runAsync([
-            $this->customTestRepository->async(fn(CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
+            $this->customTestRepository->async(fn (CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
         ])->getResolved();
 
         $this->assertSame('test1', $results[0]);
     }
 
     /** @test */
-    public function it_run_a_request_without_callback(): void    {
+    public function it_run_a_request_without_callback(): void
+    {
         Http::fake([
                 $this->customTestRepository->baseUrl => Http::response('default'),
             ]);
 
         $results = $this->httpPool->runAsync([
-            $this->customTestRepository->async(fn(CustomTestRepository $repository) => $repository->getAsyncWithoutCallback()),
+            $this->customTestRepository->async(fn (CustomTestRepository $repository) => $repository->getAsyncWithoutCallback()),
         ])->getResolved();
 
         $this->assertInstanceOf(Response::class, $results[0]);
@@ -54,8 +54,8 @@ class HttpPoolTest extends TestCase
         Http::fake();
 
         $results = $this->httpPool->runAsync([
-            $this->customTestRepository->async(fn(CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
-            $this->customTestRepository->async(fn(CustomTestRepository $repository) => $repository->getAsyncWithCallback('test2')),
+            $this->customTestRepository->async(fn (CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
+            $this->customTestRepository->async(fn (CustomTestRepository $repository) => $repository->getAsyncWithCallback('test2')),
         ])->getResolved();
 
         $this->assertSame('test1', $results[0]);
@@ -63,13 +63,14 @@ class HttpPoolTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_responses(): void    {
+    public function it_returns_the_responses(): void
+    {
         Http::fake([
             $this->customTestRepository->baseUrl => Http::response('default'),
         ]);
 
         $results = $this->httpPool->runAsync([
-            $this->customTestRepository->async(fn(CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
+            $this->customTestRepository->async(fn (CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
         ])->getResponses();
 
         $response = $results[0];
@@ -79,7 +80,8 @@ class HttpPoolTest extends TestCase
     }
 
     /** @test */
-    public function repository_can_still_run_normal_requests(): void    {
+    public function repository_can_still_run_normal_requests(): void
+    {
         Http::fake([
             $this->customTestRepository->baseUrl => Http::response('default'),
         ]);
@@ -90,11 +92,12 @@ class HttpPoolTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_requests_then_run_the_pool(): void    {
+    public function it_can_set_requests_then_run_the_pool(): void
+    {
         Http::fake();
 
         $this->httpPool->requests([
-            $this->customTestRepository->async(fn(CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
+            $this->customTestRepository->async(fn (CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
         ]);
 
         Http::assertNothingSent();
@@ -110,12 +113,13 @@ class HttpPoolTest extends TestCase
     }
 
     /** @test */
-    public function it_can_execute_the_requests_keys(): void    {
+    public function it_can_execute_the_requests_keys(): void
+    {
         Http::fake();
 
         $results = $this->httpPool->runAsync([
-            '1.com' =>  $this->customTestRepository->async(fn(CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
-            '2.com' => $this->customTestRepository->async(fn(CustomTestRepository $repository) => $repository->getAsyncWithCallback('test2')),
+            '1.com' => $this->customTestRepository->async(fn (CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
+            '2.com' => $this->customTestRepository->async(fn (CustomTestRepository $repository) => $repository->getAsyncWithCallback('test2')),
         ])->getResolved();
 
 
@@ -124,16 +128,17 @@ class HttpPoolTest extends TestCase
     }
 
     /** @test */
-    public function it_create_async_requests(): void    {
+    public function it_create_async_requests(): void
+    {
         Http::fake();
 
         $this->httpPool->runAsync([
-            $promise = $this->customTestRepository->async(fn(CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
+            $promise = $this->customTestRepository->async(fn (CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
         ])->getResolved();
 
         $this->assertTrue($promise->isPooling());
 
-        $pendingRequest = (fn() => $this->pendingRequest)->call($promise);
+        $pendingRequest = (fn () => $this->pendingRequest)->call($promise);
 
         // The PendingRequest promise is only available when running async requests.
         $this->assertInstanceOf(PromiseInterface::class, $pendingRequest?->getPromise());

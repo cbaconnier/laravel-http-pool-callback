@@ -26,11 +26,13 @@ class HttpPool
     {
         $repositories = collect($this->pool);
 
-        $this->responses = Http::pool(fn (Pool $pool) => $repositories->map(
-            fn (HttpPoolAware $repository, $key) => $repository
-                ->setPendingRequest($pool->as($key))
-                ->getPromise()
-                ->call($this, $repository))
+        $this->responses = Http::pool(
+            fn (Pool $pool) => $repositories->map(
+                fn (HttpPoolAware $repository, $key) => $repository
+                    ->setPendingRequest($pool->as($key))
+                    ->getPromise()
+                    ->call($this, $repository)
+            )
         );
 
         return $this;
