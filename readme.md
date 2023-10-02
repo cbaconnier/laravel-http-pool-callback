@@ -1,4 +1,4 @@
-# [wip] Laravel Http Pool - Callback
+# Laravel Http Pool - Callback
 
 Laravel Http Pool - Callback is a package that enhances the HTTP pool functionality in Laravel. It allows users to apply callbacks to the results of HTTP requests made using Laravel's HTTP pool. This makes it easier to process and manipulate the responses as needed.
 
@@ -14,21 +14,22 @@ composer require cbaconnier/laravel-http-pool-callback
 
 ### Prepare the requests
 
-You must implement the `Cbaconnier\HttpPool\HttpPoolAware` interface and use the `Cbaconnier\HttpPool\HasHttpPool` trait in your repository classes.
+You must implement the `HttpPoolAware` interface and use the `HasHttpPool` trait in your repository classes.  
 This will allow you to register callbacks to be applied to the responses of the requests.
 
 ```php
-
-use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use Cbaconnier\HttpPool\HttpPoolAware;
 use Cbaconnier\HttpPool\HasHttpPool;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Response;
 
 class InvoiceRepository implements HttpPoolAware
 {
 
     use HasHttpPool;
 
-    public function findAsync(int $id): Promise
+    public function findAsync(int $id): PromiseInterface
     {
         $promise = $this->http()->get("https://example.com/invoices/{$id}");
 
@@ -66,10 +67,10 @@ class InvoiceRepository implements HttpPoolAware
 ```
 
 ### Pool the requests and apply the callbacks
-`runAsync` will clone the repositories instances to no infer with other requests and delegate the requests to the native Http::pool() method.
+`runAsync` will clone your repositories instances to no infer with other requests and delegate the requests to the native `Http::pool()` method.  
 By doing so, you can still benefit from the `Http` methods and testing helpers.
 
-When you call `getResponses`, it will returns the default Guzzle `Response` objects.
+When you call `getResponses`, it will returns the default Laravel `Response` objects.  
 When you call `getResolved`, it will apply the `callbacks` to the responses and returns the results.
 
 ```php
