@@ -1,6 +1,6 @@
-# Laravel Http Pool - Callback
+# Laravel HTTP Pool - Callback
 
-Laravel Http Pool - Callback is a package that enhances the HTTP pool functionality in Laravel. It allows users to apply callbacks to the results of HTTP requests made using Laravel's HTTP pool. This makes it easier to process and manipulate the responses as needed.
+Laravel HTTP Pool - Callback is a package that enhances the HTTP pool functionality in Laravel. It allows users to apply callbacks to the results of HTTP requests made using Laravel's HTTP pool. This makes it easier to process and manipulate the responses as needed.
 
 ## Installation
 
