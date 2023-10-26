@@ -51,7 +51,7 @@ class HttpPool
     {
         return collect($this->getResponses())
             ->map(fn (Response $response, $key) => $this->pool[$key]->handlePromiseResolved($response))
-            ->toArray();
+            ->all();
     }
 
     /** @return array<array-key, Response> */

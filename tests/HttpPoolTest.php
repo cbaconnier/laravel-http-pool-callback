@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 class HttpPoolTest extends TestCase
 {
     protected HttpPool $httpPool;
+
     protected CustomTestRepository $customTestRepository;
 
     public function setUp(): void
@@ -19,7 +20,6 @@ class HttpPoolTest extends TestCase
         $this->httpPool = new HttpPool();
         $this->customTestRepository = new CustomTestRepository();
     }
-
 
     /** @test */
     public function it_executes_the_callback(): void
@@ -142,6 +142,20 @@ class HttpPoolTest extends TestCase
 
         // The PendingRequest promise is only available when running async requests.
         $this->assertInstanceOf(PromiseInterface::class, $pendingRequest?->getPromise());
+    }
+
+    /** @test */
+    public function it_preserve_the_data(): void
+    {
+        Http::fake();
+
+        $expected = collect();
+
+        $results = $this->httpPool->runAsync([
+            $this->customTestRepository->async(fn (CustomTestRepository $repository) => $repository->getAsyncWithCallback($expected)),
+        ])->getResolved();
+
+        $this->assertSame($expected, $results[0]);
     }
 
 }
