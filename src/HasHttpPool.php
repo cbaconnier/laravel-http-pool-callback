@@ -3,10 +3,10 @@
 namespace Cbaconnier\HttpPool;
 
 use Closure;
-use InvalidArgumentException;
 use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
+use InvalidArgumentException;
 
 trait HasHttpPool
 {
@@ -53,6 +53,7 @@ trait HasHttpPool
             if ($this->pendingRequest === null) {
                 throw new InvalidArgumentException('PendingRequest is null despite pooling being active.');
             }
+
             return $this->pendingRequest;
         }
 
