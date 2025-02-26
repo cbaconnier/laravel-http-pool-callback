@@ -35,6 +35,7 @@ trait HasHttpPool
         return $this->promise;
     }
 
+    /** @phpstan-assert-if-true !null $this->pendingRequest */
     public function isPooling(): bool
     {
         return $this->pendingRequest !== null;
@@ -49,15 +50,7 @@ trait HasHttpPool
 
     public function http(): PendingRequest|Factory
     {
-        if ($this->isPooling()) {
-            if ($this->pendingRequest === null) {
-                throw new InvalidArgumentException('PendingRequest is null despite pooling being active.');
-            }
-
-            return $this->pendingRequest;
-        }
-
-        return app(Factory::class);
+        return $this->isPooling() ? $this->pendingRequest : app(Factory::class);
     }
 
     /** @param  Closure(Response):mixed  $callback */
