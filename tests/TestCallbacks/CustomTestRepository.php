@@ -13,14 +13,14 @@ class CustomTestRepository implements HttpPoolAware
 
     public string $baseUrl = 'https://example.com';
 
-    public function getAsyncWithCallback(mixed $expected): PromiseInterface
+    public function getAsyncWithCallback(mixed $expected): PromiseInterface|Response
     {
         $this->onPromiseResolved(fn (Response $response) => $expected);
 
         return $this->http()->get($this->baseUrl);
     }
 
-    public function getAsyncWithoutCallback(): PromiseInterface
+    public function getAsyncWithoutCallback(): PromiseInterface|Response
     {
         return $this->http()->get($this->baseUrl);
     }
@@ -29,5 +29,4 @@ class CustomTestRepository implements HttpPoolAware
     {
         return $this->http()->get($this->baseUrl);
     }
-
 }
