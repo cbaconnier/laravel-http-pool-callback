@@ -36,7 +36,7 @@
     },
     "require-dev": {
         "orchestra/testbench": "^8.20|^9.0|^10.0",
-        "phpunit/phpunit": "^10.3",
+        "phpunit/phpunit": "^10.3|^11.5",
         "guzzlehttp/guzzle": "^7.8",
         "larastan/larastan": "^2.9",
         "phpstan/extension-installer": "^1.3"
