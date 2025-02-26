@@ -3,6 +3,7 @@
 namespace Cbaconnier\HttpPool;
 
 use Closure;
+use InvalidArgumentException;
 use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
@@ -27,6 +28,10 @@ trait HasHttpPool
 
     public function getPromise(): Closure
     {
+        if ($this->promise === null) {
+            throw new InvalidArgumentException('Promise has not been set. Call async() first.');
+        }
+
         return $this->promise;
     }
 
@@ -44,7 +49,14 @@ trait HasHttpPool
 
     public function http(): PendingRequest|Factory
     {
-        return $this->isPooling() ? $this->pendingRequest : app(Factory::class);
+        if ($this->isPooling()) {
+            if ($this->pendingRequest === null) {
+                throw new InvalidArgumentException('PendingRequest is null despite pooling being active.');
+            }
+            return $this->pendingRequest;
+        }
+
+        return app(Factory::class);
     }
 
     /** @param  Closure(Response):mixed  $callback */

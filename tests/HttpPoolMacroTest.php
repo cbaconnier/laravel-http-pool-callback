@@ -22,11 +22,11 @@ class HttpPoolMacroTest extends TestCase
             'https://example.com' => Http::response('default'),
         ]);
 
+        // @phpstan-ignore staticMethod.notFound
         $results = Http::runAsync([
             $this->customTestRepository->async(fn (CustomTestRepository $repository) => $repository->getAsyncWithCallback('test1')),
         ])->getResolved();
 
         $this->assertSame('test1', $results[0]);
     }
-
 }
