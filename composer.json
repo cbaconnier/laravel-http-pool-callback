@@ -35,7 +35,7 @@
         "test": "phpunit"
     },
     "require-dev": {
-        "orchestra/testbench": "^8.20|^9.0|^10.0|^11.0",
+        "orchestra/testbench": "^8.20|^9.2|^10.0|^11.0",
         "phpunit/phpunit": "^10.3|^11.5|^12.0",
         "guzzlehttp/guzzle": "^7.8",
         "larastan/larastan": "^2.9|^3.0",
