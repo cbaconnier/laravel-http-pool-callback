@@ -5,13 +5,14 @@ namespace Cbaconnier\HttpPool;
 use Illuminate\Http\Client\Pool;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Throwable;
 
 class HttpPool
 {
     /** @var HttpPoolAware[] */
     protected array $pool = [];
 
-    /** @var Response[] */
+    /** @var array<array-key, Response|Throwable> */
     protected array $responses = [];
 
     /** @param  HttpPoolAware[]  $requests */
@@ -27,8 +28,8 @@ class HttpPool
         $repositories = collect($this->pool);
 
         $this->responses = Http::pool(
-            fn (Pool $pool) => $repositories->map(
-                fn (HttpPoolAware $repository, $key) => $repository
+            fn(Pool $pool) => $repositories->map(
+                fn(HttpPoolAware $repository, $key) => $repository
                     ->setPendingRequest($pool->as($key))
                     ->getPromise()
                     ->call($this, $repository)
@@ -50,11 +51,17 @@ class HttpPool
     public function getResolved(): array
     {
         return collect($this->getResponses())
-            ->map(fn (Response $response, $key) => $this->pool[$key]->handlePromiseResolved($response))
+            ->map(function (Response|Throwable $response, $key) {
+                if ($response instanceof Throwable) {
+                    throw $response;
+                }
+
+                return $this->pool[$key]->handlePromiseResolved($response);
+            })
             ->all();
     }
 
-    /** @return array<array-key, Response> */
+    /** @return array<array-key, Response|Throwable> */
     public function getResponses(): array
     {
         return $this->responses;
