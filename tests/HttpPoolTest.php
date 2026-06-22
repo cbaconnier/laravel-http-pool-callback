@@ -7,6 +7,7 @@ use Cbaconnier\HttpPool\Tests\TestCallbacks\CustomTestRepository;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Test;
 
 class HttpPoolTest extends TestCase
 {
@@ -21,7 +22,7 @@ class HttpPoolTest extends TestCase
         $this->customTestRepository = new CustomTestRepository();
     }
 
-    /** @test */
+    #[Test]
     public function it_executes_the_callback(): void
     {
         Http::fake();
@@ -33,7 +34,7 @@ class HttpPoolTest extends TestCase
         $this->assertSame('test1', $results[0]);
     }
 
-    /** @test */
+    #[Test]
     public function it_run_a_request_without_callback(): void
     {
         Http::fake([
@@ -48,7 +49,7 @@ class HttpPoolTest extends TestCase
         $this->assertSame('default', $results[0]->body());
     }
 
-    /** @test */
+    #[Test]
     public function it_executes_the_callback_without_conflicts(): void
     {
         Http::fake();
@@ -62,7 +63,7 @@ class HttpPoolTest extends TestCase
         $this->assertSame('test2', $results[1]);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_responses(): void
     {
         Http::fake([
@@ -79,7 +80,7 @@ class HttpPoolTest extends TestCase
         $this->assertSame('default', $response->body());
     }
 
-    /** @test */
+    #[Test]
     public function repository_can_still_run_normal_requests(): void
     {
         Http::fake([
@@ -91,7 +92,7 @@ class HttpPoolTest extends TestCase
         $this->assertSame('default', $response->body());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_requests_then_run_the_pool(): void
     {
         Http::fake();
@@ -112,7 +113,7 @@ class HttpPoolTest extends TestCase
 
     }
 
-    /** @test */
+    #[Test]
     public function it_can_execute_the_requests_keys(): void
     {
         Http::fake();
@@ -127,7 +128,7 @@ class HttpPoolTest extends TestCase
         $this->assertSame('test2', $results['2.com']);
     }
 
-    /** @test */
+    #[Test]
     public function it_create_async_requests(): void
     {
         Http::fake();
@@ -144,7 +145,7 @@ class HttpPoolTest extends TestCase
         $this->assertInstanceOf(PromiseInterface::class, $pendingRequest?->getPromise());
     }
 
-    /** @test */
+    #[Test]
     public function it_preserve_the_data(): void
     {
         Http::fake();
