@@ -4,6 +4,7 @@ namespace Cbaconnier\HttpPool\Tests;
 
 use Cbaconnier\HttpPool\Tests\TestCallbacks\CustomTestRepository;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Test;
 
 class HttpPoolMacroTest extends TestCase
 {
@@ -15,7 +16,7 @@ class HttpPoolMacroTest extends TestCase
         $this->customTestRepository = new CustomTestRepository();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_run_through_a_macro(): void
     {
         Http::fake([
